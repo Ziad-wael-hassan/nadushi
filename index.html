@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secret Number</title>
+  
+
+  <style>
+    /* CSS styles */
+    h4 { 
+      color: rgba(0, 0, 0, .7);
+      position: absolute;
+      top: 267px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      background: rgb(255, 128, 120);
+      width: 100vw;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+    }
+
+    img {
+      margin-bottom: 2em;
+    }
+
+    .pin-group {
+      text-align: center;
+    }
+
+    .pin-group .pin-group-flex {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 2em;
+    }
+
+    .pin-group .pin-group-flex input {
+      font-size: 2em;
+      border-radius: 10px;
+      text-align: center;
+      padding: .5em .75em;
+      max-width: 30px;
+      border: 3px solid rgb(217, 101, 101);
+      font-family: 'Segoe UI', sans-serif;
+      background: rgba(0, 0, 0, .6);
+      color: rgba(255, 128, 120, .9);
+    }
+
+    .pin-group .pin-group-flex input:hover,
+    .pin-group .pin-group-flex input:focus {
+      background: rgba(0, 0, 0, .7);
+      transform: scale(1.05);
+    }
+
+    .pin-group .pin-group-flex input:focus { 
+      outline: 3px solid rgba(0, 0, 0, .7);
+    }
+
+    .pin-group small {
+      display: block;
+      color: rgba(0, 0, 0, .6);
+      margin-bottom: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="pin-group">
+    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828415.png" width="80" style="filter: opacity(.6)" />
+    <small>Enter your four-digit secret number to continue</small>
+    <div class="pin-group-flex">
+      <input type="text" maxlength="1" name="pin-1" id="pin">
+      <input type="text" maxlength="1" name="pin-2" id="pin">
+      <input type="text" maxlength="1" name="pin-3" id="pin">
+      <input type="text" maxlength="1" name="pin-4" id="pin">
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    // JavaScript code
+    $(() => {
+      let pincode = '';
+
+      $(document.body).on('keyup', 'input#pin', (e) => {
+        let target = $(e.currentTarget);
+        let currentlength = target.val().length;
+        let maxlength = 4; // Set the maximum length to 4 digits
+
+        if (currentlength <= maxlength) {
+          if (e.keyCode === 8) { // Check for backspace key
+            target.prev().focus(); // Move focus to the previous input
+    pincode = pincode.slice(0, -1); // Remove the last digit from pincode
+          } else {
+            if (target.val().length !== 0) {
+              pincode += target.val();
+              if (pincode.length < maxlength) {
+                target.next().focus(); // Move focus to the next input if not at maxlength
+              } else {
+                // Check if PIN is correct
+                if (pincode === '0205') {
+                  // Redirect to index1.html
+                  window.location.href = 'index1.html';
+                } else {
+                  alert('Incorrect PIN. Please try again.'); // Alert for incorrect PIN
+                  reset();
+                }
+              }
+            }
+          }
+        }
+      });
+
+      function reset() {
+        $('input#pin').val('');
+        $('input#pin:first').focus();
+        pincode = '';
+      }
+
+      $('input#pin:first').focus();
+    });
+  </script>
+</body>
+</html>
